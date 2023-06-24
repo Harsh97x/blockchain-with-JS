@@ -1,4 +1,5 @@
-const SHA256 = require("crypto-js/sha256");
+import pkg from 'crypto-js';
+const { SHA256 } = pkg;
 
 class Block {
   constructor(index, timestamp, data, prevHash = "") {
@@ -6,7 +7,7 @@ class Block {
     this.timestamp = timestamp;
     this.data = data;
     this.prevHash = prevHash;
-    this.Hash = "";
+    this.Hash = this.calculateBlock();
   }
   calculateBlock() {
     return SHA256(
@@ -31,3 +32,9 @@ class Blockchain {
     this.chain.push(newBlock);
   }
 }
+
+let HarshCoin = new Blockchain();
+HarshCoin.addBlock(new Block(1, "11/01/2023", { amount: "2" }));
+HarshCoin.addBlock(new Block(2, "12/01/2023", { amount: "5" }));
+
+console.log(JSON.stringify(HarshCoin, null, 4));
