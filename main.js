@@ -25,7 +25,9 @@ class Blockchain {
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
-  addBlock () {
-
+  addBlock(newBlock) {
+    newBlock.prevHash = this.getLatestBlock().Hash;
+    newBlock.Hash = newBlock.calculateBlock();
+    this.chain.push(newBlock);
   }
 }
