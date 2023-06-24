@@ -35,7 +35,7 @@ class Blockchain {
     newBlock.Hash = newBlock.calculateHash();
     this.chain.push(newBlock);
   }
-  
+
   isChainValid() {
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
@@ -59,3 +59,4 @@ HarshCoin.addBlock(new Block(1, "11/01/2023", { amount: "2" }));
 HarshCoin.addBlock(new Block(2, "12/01/2023", { amount: "5" }));
 
 console.log(JSON.stringify(HarshCoin, null, 4));
+console.log("is Chain valid? " + HarshCoin.isChainValid());
