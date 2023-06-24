@@ -1,4 +1,4 @@
-import pkg from 'crypto-js';
+import pkg from "crypto-js";
 const { SHA256 } = pkg;
 
 class Block {
@@ -7,9 +7,9 @@ class Block {
     this.timestamp = timestamp;
     this.data = data;
     this.prevHash = prevHash;
-    this.Hash = this.calculateBlock();
+    this.Hash = this.calculateHash();
   }
-  calculateBlock() {
+  calculateHash() {
     return SHA256(
       this.index + this.timestamp + this.prevhash + JSON.stringify(this.data)
     ).toString();
@@ -28,8 +28,22 @@ class Blockchain {
   }
   addBlock(newBlock) {
     newBlock.prevHash = this.getLatestBlock().Hash;
-    newBlock.Hash = newBlock.calculateBlock();
+    newBlock.Hash = newBlock.calculateHash();
     this.chain.push(newBlock);
+  }
+  isChainValid() {
+    for (let i = 1; i < this.chain.length; i++) {
+      const currentBlock = this.chain[i];
+      const previouBlock = this.chain[this.chain.length - 1];
+
+      if (currentBlock.Hash != previouBlock.calculateHash()) {
+        return false;
+      }
+
+      if (currentBlock.prevHash != previouBlock.Hash) {
+        return false
+      }
+    }
   }
 }
 
